@@ -19,7 +19,6 @@
         <center><h1><b>MULTIPLATAFORMA - WEB</b></h1></center>
         <hr/>
         <br/>
-        <center><button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#exampleModal"><b>CADASTRAR PESSOA</b></button></center>
         <br/>
         <main>
             <div class="container">
@@ -30,43 +29,38 @@
                                 <h4 class="my-0 fw-normal"><svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="#191970" class="bi bi-person-circle" viewBox="0 0 16 16">
                                 <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
                                 <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"/>
-                                </svg>&nbsp;&nbsp;<b>PESSOAS</b></h4>
+                                </svg>&nbsp;&nbsp;<b>EDIÇÃO DA PESSOA</b></h4>
                             </div>
-                            <div class="card-body">
+                            <div class="card-body text-start">
                                 <?php
-                                    include 'funcionarios.php';
+                                    include 'conecta.php';
+                                    $id = $_GET['id'];
+                                    $sql = "SELECT * FROM pessoa WHERE id=$id";
+                                    $query = $conn->query($sql);
+                                    while ($dados = $query->fetch_array()) {
+                                        $nome = $dados['nome'];
+                                        $idade = $dados['idade'];
+                                        $cidade = $dados['cidade'];
+                                    }
                                 ?>
+                                <div class="modal-body">
+
+                                    <form action="edpessoa.php?id=<?php echo $id ?>" method="post">
+                                        <label>NOME</label>
+                                        <input type="text" class="form-control" name="nome" value="<?php echo $nome; ?>" required/>
+                                        <label>IDADE</label>
+                                        <input type="number" class="form-control" name="idade" value="<?php echo $idade; ?>" required/>
+                                        <label>CIDADE</label>
+                                        <input type="text" class="form-control" name="cidade" value="<?php echo $cidade; ?>" required>                            
+                                        </br>
+                                        <button type="submit" class="btn btn-outline-success"><b>ATUALIZAR</b></button>
+                                    </form>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </main>
-        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Cadastro de Pessoas</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <form action="cadpessoa.php" method="post">
-                            <label>NOME</label>
-                            <input type="text" class="form-control" name="nome" placeholder="Digite o nome da pessoa" required/>
-                            <label>IDADE</label>
-                            <input type="number" class="form-control" name="idade" required/>
-                            <label>CIDADE</label>
-                            <input type="text" class="form-control" name="cidade" placeholder="Digite a cidade da pessoa" required>                            
-                            </br>
-                            <button type="submit" class="btn btn-outline-success"><b>CADASTRAR</b></button>
-                        </form>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Fechar</button>
-                        
-                    </div>
-                </div>
-            </div>
-        </div>
     </body>
 </html>
